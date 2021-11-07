@@ -1,0 +1,9 @@
+[
+    {
+        "model": "raterapi.category",
+        "pk": 1,
+        "fields": {
+            "label": "Outdoors"
+        }
+    }
+]
