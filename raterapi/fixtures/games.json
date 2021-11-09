@@ -5,11 +5,12 @@
         "fields": {
             "title": "London Bridge is Falling Down",
             "description": "This game i learned when i was a kid, it is the greatest thing since sliced bread",
-            "designer": 1,
+            "designer": "Marry Poppins Games",
             "year_released": "1776-01-01",
             "game_duration": 100,
             "number_of_players": 4,
-            "age_reccommendation": 5  
+            "age_reccommendation": 5,
+            "host": 1  
         }
     }
 ]   

@@ -1,0 +1,11 @@
+[
+    {
+        "model": "raterapi.gamecategory",
+        "pk": 1,
+        "fields": {
+            "game": 1,
+            "user": 1,
+            "category": 1
+        }
+    }
+]

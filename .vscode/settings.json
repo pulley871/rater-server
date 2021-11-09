@@ -9,9 +9,10 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "name": "Rater Server",
+            "name": "raterserver",
             "database": "db.sqlite3"
         }
     ],
+    "sqltools.useNodeRuntime": true,
     
 }
