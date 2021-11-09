@@ -1,0 +1,9 @@
+[{
+    "model": "raterapi.gamereviews",
+    "pk": 1,
+    "fields":{
+        "game": 1,
+        "player": 1,
+        "description": "This stuff is Bananas, B A N A N A S"
+    }
+}]

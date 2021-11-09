@@ -11,4 +11,4 @@ class Games(models.Model):
     number_of_players = models.IntegerField(max_length=5)
     age_reccommendation = models.IntegerField(max_length=3)
     category = models.ManyToManyField("Category", through="GameCategory" ,related_name="game_type")
-    rating = models.ManyToManyField("GameRating", through=None, related_name="rated")
+    rating = models.ManyToManyField("Player", through='GameRating', related_name="rated")
