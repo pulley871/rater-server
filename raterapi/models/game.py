@@ -15,7 +15,9 @@ class Games(models.Model):
     rating = models.ManyToManyField("Player", through='GameRating', related_name="rated")
     host = models.ForeignKey("Player", on_delete=models.CASCADE)
     
-
+    def rater_check(self, rater):
+        ratings = GameRating.objects.filter(game=self)
+        return rater in ratings
     @property
     def rating(self):
         """Average rating calculated attribute for each game"""

@@ -5,5 +5,75 @@
         "fields": {
             "label": "Outdoors"
         }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 2,
+        "fields": {
+            "label": "Strategy"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 3,
+        "fields": {
+            "label": "Dice"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 4,
+        "fields": {
+            "label": "Card"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 5,
+        "fields": {
+            "label": "Minature"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 6,
+        "fields": {
+            "label": "Deck Building"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 7,
+        "fields": {
+            "label": "Role Playing"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 8,
+        "fields": {
+            "label": "Sports"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 9,
+        "fields": {
+            "label": "Advenutre"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 10,
+        "fields": {
+            "label": "Cooperative"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 11,
+        "fields": {
+            "label": "Battle"
+        }
     }
 ]

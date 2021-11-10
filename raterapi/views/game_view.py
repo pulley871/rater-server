@@ -8,6 +8,8 @@ from rest_framework import status
 from raterapi.models import Games, Player, GameReviews
 from django.contrib.auth.models import User
 
+from raterapi.models.game_rating import GameRating
+
 
 class GameView(ViewSet):
     def list(self, request):
@@ -41,8 +43,16 @@ class GameView(ViewSet):
 
     def retrieve(self, request, pk=None):
         """Gets Single Games"""
+        player = Player.objects.get(user = request.auth.user)
         try:
+
             game = Games.objects.get(pk=pk)
+            
+            ratings = game.ratings.all()
+            for rating in ratings:
+                if player.id == rating.player_id:
+                    game.rated = rating 
+            
             serializer = GameSerializer(game, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
@@ -97,11 +107,15 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameReviews
         fields = ('id', 'description','game', 'player' )
-        
+class RatedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameRating
+        fields = ('id','rating',)       
 class GameSerializer(serializers.ModelSerializer):
     host = HostSerializer()
     reviews = ReviewSerializer(many=True,required=None)
+    rated = RatedSerializer(required=False)
     class Meta:
         model = Games
-        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews')
+        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews','rated',)
         depth = 1
