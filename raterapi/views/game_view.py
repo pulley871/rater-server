@@ -5,6 +5,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
+from raterapi import models
 from raterapi.models import Games, Player, GameReviews
 from django.contrib.auth.models import User
 
@@ -13,9 +14,11 @@ from raterapi.models.game_rating import GameRating
 
 class GameView(ViewSet):
     def list(self, request):
+        player = Player.objects.get(user = request.auth.user)
         games = Games.objects.all()
+        for game in games:
+            game.is_host = player == game.host
         
-
         game_category = self.request.query_params.get('category', None)
         if game_category is not None:
             games = games.filter(category = game_category)
@@ -47,7 +50,7 @@ class GameView(ViewSet):
         try:
 
             game = Games.objects.get(pk=pk)
-            
+            game.is_host = player == game.host
             ratings = game.ratings.all()
             for rating in ratings:
                 if player.id == rating.player_id:
@@ -78,8 +81,9 @@ class GameView(ViewSet):
         game.number_of_players = request.data['number_of_players']
         game.age_reccommendation = request.data['age_reccommendation']
         game.host = player
+        game.category.set(request.data["category"])
         game.save()
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -115,7 +119,8 @@ class GameSerializer(serializers.ModelSerializer):
     host = HostSerializer()
     reviews = ReviewSerializer(many=True,required=None)
     rated = RatedSerializer(required=False)
+    is_host = serializers.BooleanField(required=False)
     class Meta:
         model = Games
-        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews','rated',)
+        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews','rated',"is_host")
         depth = 1
