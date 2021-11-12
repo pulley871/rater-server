@@ -3,3 +3,4 @@ from .game_review import ReviewView
 from .auth import login_user, register_user
 from .categories import CategoriesView
 from .ratings import RatingView
+from .gameimage import GamePictureView

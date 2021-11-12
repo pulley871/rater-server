@@ -8,14 +8,28 @@ from rest_framework import status
 from raterapi import models
 from raterapi.models import Games, Player, GameReviews
 from django.contrib.auth.models import User
-
+from raterapi.models.game_picture import GamePicture
+from django.db.models import Q
 from raterapi.models.game_rating import GameRating
+from raterapi.views.gameimage import ImageSer
 
 
 class GameView(ViewSet):
     def list(self, request):
         player = Player.objects.get(user = request.auth.user)
-        games = Games.objects.all()
+
+        games =Games.objects.all()
+        search_text = self.request.query_params.get('q', None)
+        if search_text is not None:
+
+            games = Games.objects.filter(
+                # Q(title__contains=search_text) |
+                # Q(description__contains=search_text) |
+                # Q(designer__contains=search_text)
+                Q(category__label__contains=search_text)
+                ).distinct()
+        
+            
         for game in games:
             game.is_host = player == game.host
         
@@ -51,6 +65,7 @@ class GameView(ViewSet):
 
             game = Games.objects.get(pk=pk)
             game.is_host = player == game.host
+            
             ratings = game.ratings.all()
             for rating in ratings:
                 if player.id == rating.player_id:
@@ -120,7 +135,8 @@ class GameSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True,required=None)
     rated = RatedSerializer(required=False)
     is_host = serializers.BooleanField(required=False)
+    
     class Meta:
         model = Games
-        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews','rated',"is_host")
+        fields = ('id', 'title', 'description','designer', 'year_released', 'game_duration', 'number_of_players', 'age_reccommendation', 'category', 'rating', 'host', 'reviews','rated',"is_host","pictures")
         depth = 1
