@@ -20,6 +20,15 @@ class GameView(ViewSet):
 
         games =Games.objects.all()
         search_text = self.request.query_params.get('q', None)
+        filter_by_year_and_designer = self.request.query_params.get('orderby', None)
+        if filter_by_year_and_designer is not None:
+            if filter_by_year_and_designer == 'year':
+                games = Games.objects.order_by('year_released')
+            elif filter_by_year_and_designer == 'designer':
+                games = Games.objects.order_by('designer')
+            elif filter_by_year_and_designer == 'title':
+                games = Games.objects.order_by('title')
+                
         if search_text is not None:
 
             games = Games.objects.filter(
